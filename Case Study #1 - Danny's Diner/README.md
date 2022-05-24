@@ -1,4 +1,8 @@
-# 8-Week-SQL-Challenge
+# [8-Week SQL Challenge](https://github.com/ndleah/8-Week-SQL-Challenge) 
+![Star Badge](https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99)
+[![View Main Folder](https://img.shields.io/badge/View-Main_Folder-971901?)](https://github.com/subalasingh/8-Week-SQL-Challenge)
+[![View Repositories](https://img.shields.io/badge/View-My_Repositories-blue?logo=GitHub)](https://github.com/subalasingh?tab=repositories)
+[![View My Profile](https://img.shields.io/badge/View-My_Profile-green?logo=GitHub)](https://github.com/subalasingh)
 # 🍜 Case Study #1: Danny's Diner 
 <img src="https://user-images.githubusercontent.com/81607668/127727503-9d9e7a25-93cb-4f95-8bd0-20b87cb4b459.png" alt="Image" width="500" height="520">
 
