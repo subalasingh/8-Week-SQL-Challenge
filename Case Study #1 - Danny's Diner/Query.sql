@@ -147,11 +147,72 @@ WITH cust_Purchase AS (
 SELECT * FROM cust_Purchase WHERE purchase_order =1;
 
 --Result:
-+──────────────+───────────────+───────────────────────────+─────────────────+
-| customer_id  | product_name  | order_date                | purchase_order  |
-+──────────────+───────────────+───────────────────────────+─────────────────+
-| A            | curry         | 2021-01-07T00:00:00.000Z  | 1               |
-| B            | sushi         | 2021-01-11T00:00:00.000Z  | 1               |
-+──────────────+───────────────+───────────────────────────+─────────────────+
++──────────────+───────────────+───────────────+─────────────────+
+| customer_id  | product_name  | order_date    | purchase_order  |
++──────────────+───────────────+───────────────+─────────────────+
+| A            | curry         | 2021-01-07    | 1               |
+| B            | sushi         | 2021-01-11    | 1               |
++──────────────+───────────────+───────────────+─────────────────+
 
 -- 7. Which item was purchased just before the customer became a member?
+
+WITH cust_Purchase AS (
+	SELECT 
+      sales.customer_id,
+      order_date, 
+      Product_name,
+      DENSE_RANK() OVER(
+		  PARTITION BY sales.customer_id 
+		  ORDER BY order_date DESC) as purchase_order
+    FROM (
+		dannys_diner.sales 
+        JOIN 
+        dannys_diner.members
+        ON
+        sales.customer_id = members.customer_id
+	)
+	JOIN  
+	dannys_diner.menu 
+	ON sales.product_id = menu.product_id 
+	WHERE order_date < join_date
+)
+SELECT * FROM cust_Purchase WHERE purchase_order =1;
+
+--Result:
++──────────────+───────────────+──────────────+─────────────────+
+| customer_id  | product_name  | order_date   | purchase_order  |
++──────────────+───────────────+──────────────+─────────────────+
+| A            | sushi         | 2021-01-01   | 1               |
+| A            | curry         | 2021-01-01   | 1               |
+| B            | sushi         | 2021-01-04   | 1               |
++──────────────+───────────────+──────────────+─────────────────+
+
+-- 8. What is the total items and amount spent for each member before they became a member?
+
+SELECT 
+  sales.customer_id, 
+  COUNT(sales.product_id) as total_items, 
+  SUM(menu.price) as amount_spent 
+ FROM 
+  dannys_diner.sales 
+  JOIN 
+   dannys_diner.members
+  ON
+   sales.customer_id = members.customer_id
+  JOIN  
+   dannys_diner.menu 
+  ON 
+   sales.product_id = menu.product_id  
+WHERE order_date < join_date
+GROUP BY(sales.customer_id)
+ORDER BY(sales.customer_id);
+
+--Result:
++──────────────+──────────────+──────────────+
+| customer_id  | total_spent  | total_items  |
++──────────────+──────────────+──────────────+
+| A            | 25           | 2            |
+| B            | 40           | 3            |
++──────────────+──────────────+──────────────+
+
+-- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
