@@ -145,3 +145,66 @@ LIMIT 1;
 
 --5. Which item was the most popular for each customer?
 
+WITH Cust_order_count AS (SELECT 
+ customer_id, 
+ product_name, 
+ COUNT(sales.product_id)as order_count,
+ DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY COUNT(customer_id) DESC ) AS item_rank
+FROM 
+ dannys_diner.sales JOIN dannys_diner.menu 
+ON 
+ sales.product_id = menu.product_id
+GROUP BY
+ customer_id, product_name
+)
+SELECT 
+ customer_id, 
+ product_name, 
+ order_count
+FROM Cust_order_count
+WHERE item_rank = 1;
+
+--Result:
++──────────────+───────────────+──────────────+───────+
+| customer_id  | product_name  | order_count  | rank  |
++──────────────+───────────────+──────────────+───────+
+| A            | ramen         | 3            | 1     |
+| B            | ramen         | 2            | 1     |
+| B            | curry         | 2            | 1     |
+| B            | sushi         | 2            | 1     |
+| C            | ramen         | 3            | 1     |
++──────────────+───────────────+──────────────+───────+
+
+--6. Which item was purchased first by the customer after they became a member?
+
+WITH cust_Purchase AS (
+	SELECT 
+      sales.customer_id,
+      order_date, 
+      Product_name,
+      ROW_NUMBER() OVER(
+		  PARTITION BY sales.customer_id 
+		  ORDER BY order_date ASC) as purchase_order
+    FROM (
+		dannys_diner.sales 
+        JOIN 
+        dannys_diner.members
+        ON
+        sales.customer_id = members.customer_id
+	)
+	JOIN  
+	dannys_diner.menu 
+	ON sales.product_id = menu.product_id 
+	WHERE order_date >= join_date
+)
+SELECT * FROM cust_Purchase WHERE purchase_order =1;
+
+--Result:
++──────────────+───────────────+───────────────────────────+─────────────────+
+| customer_id  | product_name  | order_date                | purchase_order  |
++──────────────+───────────────+───────────────────────────+─────────────────+
+| A            | curry         | 2021-01-07T00:00:00.000Z  | 1               |
+| B            | sushi         | 2021-01-11T00:00:00.000Z  | 1               |
++──────────────+───────────────+───────────────────────────+─────────────────+
+
+-- 7. Which item was purchased just before the customer became a member?
