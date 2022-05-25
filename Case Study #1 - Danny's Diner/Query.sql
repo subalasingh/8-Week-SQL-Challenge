@@ -221,8 +221,8 @@ SELECT
   sales.customer_id, 
   SUM(
 	  CASE sales.product_id
-      WHEN 1 THEN (price*20)
-	  ELSE (price*10)
+               WHEN 1 THEN (price*20)
+	       ELSE (price*10)
 	  END
   ) AS total_points
 FROM 
@@ -243,4 +243,39 @@ ORDER BY sales.customer_id;
 | C            | 360           |
 +──────────────+───────────────+
 
---10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+--10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, 
+--    not just sushi - how many points do customer A and B have at the end of January?
+
+SELECT 
+ sales.customer_id,
+ SUM(
+	 CASE 
+	     WHEN order_date < join_date THEN 
+	         CASE sales.product_id
+	              WHEN 1 THEN (price*20)
+		          ELSE (price*10)
+		     END
+	     WHEN order_date > (join_date + INTERVAL '6 day') THEN 
+	         CASE sales.product_id
+	             WHEN 1 THEN (price*20)
+		         ELSE (price*10)
+		     END  
+	     ELSE (price*20)
+	END
+ ) AS total_points
+FROM 
+    dannys_diner.sales join dannys_diner.members
+    ON sales.customer_id = members.customer_id
+JOIN dannys_diner.menu
+    ON sales.product_id = menu.product_id
+WHERE order_date < (DATE_TRUNC('MONTH', (join_date)::DATE) + INTERVAL '1 MONTH - 1 day')::DATE
+GROUP BY sales.customer_id
+ORDER BY sales.customer_id;
+
+--Result:
++──────────────+──────+
+| customer_id  | SUM  |
++──────────────+──────+
+| A            | 1370 |
+| B            | 820  |
++──────────────+──────+
