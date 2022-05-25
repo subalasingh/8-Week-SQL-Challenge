@@ -4,6 +4,7 @@
 [![View Repositories](https://img.shields.io/badge/View-My_Repositories-blue?logo=GitHub)](https://github.com/subalasingh?tab=repositories)
 [![View My Profile](https://img.shields.io/badge/View-My_Profile-green?logo=GitHub)](https://github.com/subalasingh)
 # 🍜 Case Study #1: Danny's Diner 
+<p align="center">
 <img src="https://user-images.githubusercontent.com/81607668/127727503-9d9e7a25-93cb-4f95-8bd0-20b87cb4b459.png" alt="Image" width="500" height="520">
 
 
@@ -14,11 +15,11 @@
  <br /> 
 
 
-## Entity Relationship Diagram
+## ♻️Entity Relationship Diagram
 
 ![image](https://user-images.githubusercontent.com/81607668/127271130-dca9aedd-4ca9-4ed8-b6ec-1e1920dca4a8.png)
 
-## Case Study Questions
+## 🧩Case Study Questions
 
 <details>
 <summary>
@@ -37,5 +38,5 @@ Click here to expand!
 12. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 </details>
 
-
+---
 <p>&copy; 2021 Subala Singh</p>
