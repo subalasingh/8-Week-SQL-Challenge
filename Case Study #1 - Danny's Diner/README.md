@@ -6,7 +6,6 @@
 # 🍜 Case Study #1: Danny's Diner 
 <img src="https://user-images.githubusercontent.com/81607668/127727503-9d9e7a25-93cb-4f95-8bd0-20b87cb4b459.png" alt="Image" width="500" height="520">
 
-***
 
 ---
 
@@ -41,6 +40,6 @@ Click here to expand!
 12. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 </details>
 
-***
+---
 
 <p>&copy; 2021 Subala Singh</p>
