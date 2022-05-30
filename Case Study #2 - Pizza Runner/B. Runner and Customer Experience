@@ -1,3 +1,26 @@
 --B. Runner and Customer Experience
 
 --1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+
+WITH start_week As(Select runner_id, registration_date,
+registration_date - ((registration_date - '2021-01-01') % 7) As start_of_week
+FROM pizza_runner.runners)
+SELECT start_of_week, COUNT(runner_id) as signed_runner
+FROM start_week 
+GROUP BY start_of_week
+ORDER BY start_of_week;
+
+--Result:
++────────────────+──────────+
+| start_of_week  | signups  |
++────────────────+──────────+
+| 2021-01-01     | 2        |
+| 2021-01-08     | 1        |
+| 2021-01-15     | 1        |
++────────────────+──────────+
+
+--2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+
+
+
+
